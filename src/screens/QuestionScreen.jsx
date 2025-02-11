@@ -79,51 +79,62 @@ const QuestionScreen = (props) => {
   }
 
   return (
-    <div className='ques-container flex flex-col items-start'>
+    <div key={props?.id} className='ques-container flex flex-col items-center'>
         <h3 className='text-xl font-semibold text-red-600'> {props?.ques?.question} </h3>
-        {
-            props?.ques?.type==="text-input" &&
-            (<input 
-                type="text" 
-                name="txt-inp" 
-                className='p-2 border border-gray-500 rounded-lg mt-5' 
-                onChange={handleInputVal}
-            />)
-        }
-        {
-            props?.ques?.type==="multiple-choice" &&
-            props?.ques?.options?.map((opt, idx)=> (
-                <div className="flex flex-row mt-4">
-                    <input 
-                        type="checkbox" 
-                        id={idx} 
-                        name="check-box-inp" 
-                        value={opt} 
-                        onChange={handleInputVal} 
-                        defaultChecked={checked}
-                    />
-                    <label htmlFor={idx} className="mx-2"> {opt} </label>
-                </div>
-            ))
-            
-        }
-        {
-            props?.ques?.type==="true-false" &&
-            ["True", "False"].map((opt, idx)=> (
-                <div className="flex flex-row mt-4">
-                    <input 
-                        type="radio" 
-                        id={idx} 
-                        name="radio-btn-inp" 
-                        value={opt} 
-                        onChange={handleInputVal} 
-                        defaultChecked={checked}
-                    />
-                    <label htmlFor={idx} className='mx-2'> {opt} </label>
-                </div>    
-            ))
-        }
-        <div className="mt-10 w-2/3">
+        <div 
+            key={props?.id} 
+            className={
+                props?.ques?.type==="text-input" ? 
+                'w-full px-6 py-2' : 
+                'w-5/6 px-6 py-2'
+            }
+        >
+            {
+                props?.ques?.type==="text-input" &&
+                (<input 
+                    type="text" 
+                    name="txt-inp" 
+                    className='w-3/4 p-2 border border-gray-500 rounded-lg mt-5' 
+                    onChange={handleInputVal}
+                />)
+            }
+            {
+                props?.ques?.type==="multiple-choice" &&
+                props?.ques?.options?.map((opt, idx)=> (
+                    <div className="flex flex-row mt-4 items-center">
+                        <input 
+                            type="checkbox" 
+                            id={idx} 
+                            name="check-box-inp" 
+                            value={opt} 
+                            onChange={handleInputVal} 
+                            defaultChecked={checked}
+                            className= 'size-5'
+                        />
+                        <label htmlFor={idx} className="mx-5"> {opt} </label>
+                    </div>
+                ))
+                
+            }
+            {
+                props?.ques?.type==="true-false" &&
+                ["True", "False"].map((opt, idx)=> (
+                    <div className="flex flex-row mt-4 items-center">
+                        <input 
+                            type="radio" 
+                            id={idx} 
+                            name="radio-btn-inp" 
+                            value={opt} 
+                            onChange={handleInputVal} 
+                            defaultChecked={checked}
+                            className= 'size-4'
+                        />
+                        <label htmlFor={idx} className='mx-5'> {opt} </label>
+                    </div>    
+                ))
+            }
+        </div>
+        <div className="mt-10 w-[90%]">
             <Button 
                 btnTitle="Submit" 
                 isCorrect={isCorrect}
@@ -136,7 +147,7 @@ const QuestionScreen = (props) => {
         </div>
 
         {isCorrect===true ?
-            (<div className='mt-3 w-2/3'>
+            (<div className='mt-3 w-[90%]'>
                 <Button 
                     btnTitle="Next" 
                     handleClick={()=> { 
@@ -147,11 +158,11 @@ const QuestionScreen = (props) => {
                 />
                 <AnsFeedback 
                     isCorrect={isCorrect} 
-                    msg="Good! You answered it correctly."
+                    msg={`Good! You answered it correctly. ${props?.level===0 ? "10" : props?.level===1 ? "20" : "30"} points to Gryffindor.`}
                 />
             </div>) 
             :
-            (<div className='mt-3 w-2/3'>
+            (<div className='mt-3 w-[90%]'>
                 {
                     (inpVal!==undefined && isCorrect!==undefined) && 
                     (<Button 

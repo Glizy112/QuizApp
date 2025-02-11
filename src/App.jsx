@@ -163,8 +163,9 @@ function App() {
       :
       level >= 0 && level <= 2 &&
       (
-        currLevelData?.slice(quesNum, quesNum+1)?.map((item)=> (
-          <QuestionScreen 
+        currLevelData?.slice(quesNum, quesNum+1)?.map((item, idx)=> (
+          <QuestionScreen
+            id={idx} 
             ques={item} 
             onSubmit={handleQuestionNum} 
             level={level}
